@@ -24,6 +24,8 @@ export default {
   color: #2c3e50;
   height: 100%;
   width: 100%;
+
+  cursor: none;
 }
 html, body {
   width: 100%;
