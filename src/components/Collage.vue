@@ -1,5 +1,6 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper" v-if="!error">
+    <camera class="camera" v-model="countdown"></camera>
     <div class="grid">
       <div class="slot"><image-switcher :src="slotA"/></div>
       <div class="slot"><image-switcher :src="slotB"/></div>
@@ -8,30 +9,30 @@
       <div class="slot"><image-switcher :src="slotC"/></div>
       <div class="slot"><image-switcher :src="slotD"/></div>
     </div>
-    <div class="middle-circle" @click="startCountdown">
+    <div class="middle-circle" @click="countdown = true">
       <div class="outer">
-        <div class="inner" v-if="!showCountdown">
+        <div class="inner">
           <div class="wedding">Bröllop</div>
           <div class="names">Camilla<br>&<br>Henrik</div>
           <div class="dates">2019-01-01</div>
         </div>
-        <div class="inner" v-else>
-          <div class="wedding">Get Ready!</div>
-          <div class="number">{{ countdown }}</div>
-          <div class="dates">Say cheese</div>
-        </div>
       </div>
     </div>
+  </div>
+  <div v-else>
+    {{error}}
   </div>
 </template>
 
 <script>
 import ImageSwitcher from './ImageSwitcher';
+import Camera from './Camera';
 
 export default {
   name: 'Collage',
   components: {
-    ImageSwitcher
+    ImageSwitcher,
+    Camera
   },
   data() {
     return {
@@ -40,12 +41,15 @@ export default {
       slotC: this.getImage(),
       slotD: this.getImage(),
       lastSlot: 0,
-      showCountdown: false,
-      countdown: 5
+      countdown: false,
+      error: undefined,
     }
   },
   mounted() {
     setInterval(() => {
+      if (!navigator.getUserMedia) {
+        this.error = 'No webcam detected :('
+      }
       const slots = ['slotA', 'slotB', 'slotC', 'slotD'];
       const slot = slots[this.lastSlot++];
       this[slot] = this.getImage();
@@ -66,23 +70,6 @@ export default {
 
       return a[Math.floor(Math.random() * a.length)];
     },
-    startCountdown() {
-      this.countdown = 5;
-      this.showCountdown = true;
-      const cd = setInterval(() => {
-        this.countdown -= 1;
-        if (this.countdown == 0) {
-          clearInterval(cd);
-          this.countdownComplete();
-        }
-      }, 1000);
-    },
-    countdownComplete() {
-      this.countdown = 'O_o';
-      setTimeout(() => {
-        this.showCountdown = false;
-      }, 2000);
-    }
   },
 }
 </script>
@@ -190,5 +177,13 @@ export default {
   color: rgba(0,0,0,0.7);
   padding-left: 40px;
   padding-right: 40px;
+}
+
+.camera {
+  position: absolute;
+  z-index: 900;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 </style>

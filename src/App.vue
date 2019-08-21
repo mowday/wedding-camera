@@ -1,19 +1,16 @@
 <template>
   <div id="app">
-    <!-- <collage/> -->
-    <test/>
+    <collage/>
   </div>
 </template>
 
 <script>
 import Collage from './components/Collage.vue'
-import Test from './components/Test.vue'
 
 export default {
   name: 'app',
   components: {
     Collage,
-    Test
   }
 }
 </script>
