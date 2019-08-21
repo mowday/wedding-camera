@@ -62,12 +62,14 @@ export default {
     getImage() {
       if (this.images.length === 0) {
         return;
-      }
-
-      const index = this.lastIndex++;
-      if (index > this.images.length) {
-        index = 0;
-        this.lastIndex = 0;
+      } else if (this.images.length === 1) {
+        return this.images[0]
+      } else {
+        let index = this.lastIndex++;
+        if (index >= this.images.length) {
+          index = 0;
+          this.lastIndex = 0;
+        }
       }
       return this.images[index];
     },
