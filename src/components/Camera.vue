@@ -1,7 +1,8 @@
 <template>
   <div class="camera-wrapper" v-bind:class="{ active: value }">
-    <div class="countdown">{{countdown}}</div>
-    <video ref="video"></video>
+    <div class="countdown" v-if="countdown != 0">{{countdown}}</div>
+    <video ref="video" :class="{ visible: !image }"></video>
+    <canvas ref="canvas" :class="{ visible: image }"></canvas>
   </div>
 </template>
 
@@ -11,7 +12,8 @@ export default {
   data() {
     return {
       countdown: 7,
-      running: false
+      running: false,
+      image: undefined,
     }
   },
   methods: {
@@ -21,10 +23,34 @@ export default {
         this.countdown--;
         if (this.countdown == 0) {
           clearInterval(cd);
-          this.$emit('input', false);
+          this.takePhoto();
         }
       }, 1000);
-    }
+    },
+    async takePhoto() {
+      console.log('Take Photo');
+      console.log(this.$refs.video)
+      this.$refs.canvas.width = this.$refs.video.clientWidth;
+      this.$refs.canvas.height = this.$refs.video.clientHeight;
+      
+      this.$refs.canvas.getContext('2d').drawImage(
+        this.$refs.video, 
+        0, 0, 
+        this.$refs.canvas.width,
+        this.$refs.canvas.height
+      )
+      
+      this.image = this.$refs.canvas.toDataURL('image/jpeg', 1.0);
+      const result = await fetch('http://localhost:3000/upload', {
+        method: 'POST',
+        body: this.image
+      });
+      
+      setTimeout(() => {
+        this.$emit('input', false);
+        this.image = undefined;
+      }, 5000);
+    },
   },
   mounted() {
     navigator.getUserMedia(
@@ -33,6 +59,8 @@ export default {
             var video = this.$refs.video;
             video.srcObject = mediaStream;
             video.play();
+
+            this.canvas = document.createElement('canvas');
         },
         console.log);
   },
@@ -81,5 +109,17 @@ export default {
     border-radius: 70px;
     border: 5px solid white;
     padding: 0;
+    display: none;
+  }
+
+  canvas {
+    border-radius: 70px;
+    border: 5px solid white;
+    padding: 0;
+    display: none;
+  }
+
+  .visible {
+    display: block;
   }
 </style>

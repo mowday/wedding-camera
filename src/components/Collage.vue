@@ -36,17 +36,52 @@ export default {
   },
   data() {
     return {
-      slotA: this.getImage(),
-      slotB: this.getImage(),
-      slotC: this.getImage(),
-      slotD: this.getImage(),
+      images: [],
+      slotA: undefined,
+      slotB: undefined,
+      slotC: undefined,
+      slotD: undefined,
       lastSlot: 0,
+      lastIndex: 0,
       countdown: false,
       error: undefined,
     }
   },
-  mounted() {
-    setInterval(() => {
+  async mounted() {
+    setInterval(async () => {
+      await this.updateImages();
+      this.swapNextSlot()
+    }, 10000);
+    await this.updateImages();
+    this.swapNextSlot();
+    this.swapNextSlot();
+    this.swapNextSlot();
+    this.swapNextSlot();
+  },
+  methods: {
+    getImage() {
+      if (this.images.length === 0) {
+        return;
+      }
+
+      const index = this.lastIndex++;
+      if (index > this.images.length) {
+        index = 0;
+        this.lastIndex = 0;
+      }
+      return this.images[index];
+    },
+    async updateImages() {
+      const result = await fetch('/images.json');
+      if (result.status === 200) {
+        const data = await result.json();
+        this.images = data;
+        console.log('Images updated', this.images);
+      } else {
+        console.log('Failed to get images')
+      }
+    },
+    swapNextSlot() {
       if (!navigator.getUserMedia) {
         this.error = 'No webcam detected :('
       }
@@ -56,19 +91,6 @@ export default {
       if (this.lastSlot > slots.length) {
         this.lastSlot = 0;
       }
-    }, 10000);
-  },
-  methods: {
-    getImage() {
-      const a = [
-        'https://media.glamour.com/photos/5788fbfa84667b5051f412c6/master/w_1600%2Cc_limit/wedding-guests.jpg',
-        'https://earcandy-beec.kxcdn.com/wp-content/uploads/2017/02/5555-1024x576.jpg',
-        'https://assets.simpleviewinc.com/simpleview/image/upload/c_fill,h_661,q_50,w_1920/v1/clients/frederickcountymd/Wedding_at_Thorpewood_2_db549f4c-ee8b-4707-aec7-d8f3a0eb8bb6.jpg',
-        'http://thisfairytalelife.com/wp-content/uploads/2017/04/Disney-wedding-guests-4.jpg',
-        'https://home.bt.com/images/the-clooneys-and-the-beckhams-are-among-the-royal-wedding-guests-136427280517702601-180519111018.jpg'
-      ]
-
-      return a[Math.floor(Math.random() * a.length)];
     },
   },
 }
@@ -84,6 +106,8 @@ export default {
   width: calc(50% - 5px);
   margin: 0 5px 5px 0;
   float: left;
+  
+  background-color: ghostwhite;
 
   -webkit-transition: opacity 1s ease-in-out;
   -moz-transition: opacity 1s ease-in-out;
