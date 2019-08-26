@@ -2,12 +2,13 @@
   <div class="image-switcher-wrapper">
     <img
       class="image-switcher-top"
-      v-bind:class="{ active: showTop }"
+      v-bind:class="{ active: showTop === true }"
       v-on:load="imageReady(true)"
       ref="top"
     >
     <img
       class="image-switcher-bottom"
+      v-bind:class="{ active: showTop !== undefined }"
       v-on:load="imageReady(false)"
       ref="bottom"
     >
@@ -19,7 +20,7 @@ export default {
   name: 'ImageSwitcher',
   data() {
     return {
-      showTop: false
+      showTop: undefined
     }
   },
   props: {
@@ -72,19 +73,21 @@ export default {
     top: 50%;
     margin-left: 50%;
     transform: translate(-50%, -50%);
+
+    min-height: 100%;
+    min-width: 100%;
+    opacity: 0;
   }
 
   .image-switcher-top {
-    background-color: blue;
-    opacity: 0;
     z-index: 1;
   }
 
-  .image-switcher-bottom {
-    background-color: cornflowerblue;
+  .image-switcher-top.active {
+    opacity: 1;
   }
 
-  .image-switcher-top.active {
+  .image-switcher-bottom.active {
     opacity: 1;
   }
 </style>

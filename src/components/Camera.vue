@@ -28,8 +28,6 @@ export default {
       }, 1000);
     },
     async takePhoto() {
-      console.log('Take Photo');
-      console.log(this.$refs.video)
       this.$refs.canvas.width = this.$refs.video.clientWidth;
       this.$refs.canvas.height = this.$refs.video.clientHeight;
       
@@ -41,7 +39,7 @@ export default {
       )
       
       this.image = this.$refs.canvas.toDataURL('image/jpeg', 1.0);
-      const result = await fetch('http://localhost:3000/upload', {
+      await fetch('http://localhost:3000/upload', {
         method: 'POST',
         body: this.image
       });
@@ -62,6 +60,7 @@ export default {
 
             this.canvas = document.createElement('canvas');
         },
+        // eslint-disable-next-line
         console.log);
   },
   props: {
@@ -81,7 +80,7 @@ export default {
 </script>
 
 <style scoped>
-  @import url('https://fonts.googleapis.com/css?family=Cinzel&display=swap');
+  /* @import url('https://fonts.googleapis.com/css?family=Cinzel&display=swap'); */
 
   .camera-wrapper {
     margin: 0;

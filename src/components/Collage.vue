@@ -14,7 +14,7 @@
         <div class="inner">
           <div class="wedding">Bröllop</div>
           <div class="names">Camilla<br>&<br>Henrik</div>
-          <div class="dates">2019-01-01</div>
+          <div class="dates">2019-08-31</div>
         </div>
       </div>
     </div>
@@ -70,16 +70,16 @@ export default {
           index = 0;
           this.lastIndex = 0;
         }
+        return this.images[index];
       }
-      return this.images[index];
     },
     async updateImages() {
       const result = await fetch('/images.json');
       if (result.status === 200) {
         const data = await result.json();
         this.images = data;
-        console.log('Images updated', this.images);
       } else {
+        // eslint-disable-next-line
         console.log('Failed to get images')
       }
     },
@@ -95,11 +95,21 @@ export default {
       }
     },
   },
+  watch: {
+    async countdown(val) {
+      if (!val) {
+        await this.updateImages();
+        if (this.images.length < 4) {
+          this.swapNextSlot();
+        }
+      }
+    }
+  }
 }
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css?family=Cinzel&display=swap');
+/* @import url('https://fonts.googleapis.com/css?family=Cinzel&display=swap'); */
 
 .slot {
   height: 100%;
