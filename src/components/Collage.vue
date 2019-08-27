@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper" v-if="!error">
+  <div class="wrapper" v-if="!error" @click="countdown = true">
     <camera class="camera" v-model="countdown"></camera>
     <div class="grid">
       <div class="slot"><image-switcher :src="slotA"/></div>
@@ -9,7 +9,7 @@
       <div class="slot"><image-switcher :src="slotC"/></div>
       <div class="slot"><image-switcher :src="slotD"/></div>
     </div>
-    <div class="middle-circle" @click="countdown = true">
+    <div class="middle-circle">
       <div class="outer">
         <div class="inner">
           <div class="wedding">Bröllop</div>
