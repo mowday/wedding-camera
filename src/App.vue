@@ -26,11 +26,14 @@ export default {
   width: 100%;
 
   cursor: none;
+  background-color: #2c3e50;
 }
 html, body {
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
+
+  background-color: #2c3e50;
 }
 </style>

@@ -2,7 +2,9 @@
   <div class="camera-wrapper" v-bind:class="{ active: value }">
     <div class="countdown" v-if="countdown != 0">{{countdown}}</div>
     <video ref="video" :class="{ visible: !image }"></video>
-    <canvas ref="canvas" :class="{ visible: image }"></canvas>
+    <div class="canvas-wrapper" :class="{ visible: image }">
+      <canvas ref="canvas" :class="{ visible: image }"></canvas>
+    </div>
   </div>
 </template>
 
@@ -80,7 +82,7 @@ export default {
 </script>
 
 <style scoped>
-  /* @import url('https://fonts.googleapis.com/css?family=Cinzel&display=swap'); */
+  /* @import url('https://fonts.googleapis.com/css?family=Oswald&display=swap'); */
 
   .camera-wrapper {
     margin: 0;
@@ -94,7 +96,7 @@ export default {
   }
 
   .countdown {
-    font-family: 'Cinzel', serif;
+    font-family: 'Oswald', serif;
     color: white;
     font-size: 200px;
     position: absolute;
@@ -105,20 +107,49 @@ export default {
   }
 
   video {
-    border-radius: 70px;
+    border-radius: 10px;
     border: 5px solid white;
     padding: 0;
     display: none;
+    -webkit-box-shadow: 3px 3px 25px -4px rgba(0,0,0,0.8);
+    -moz-box-shadow: 3px 3px 25px -4px rgba(0,0,0,0.8);
+    box-shadow: 3px 3px 25px -4px rgba(0,0,0,0.8);
   }
 
-  canvas {
-    border-radius: 70px;
+  .canvas-wrapper {
+    border-radius: 10px;
     border: 5px solid white;
+    background-color: white;
     padding: 0;
     display: none;
+    -webkit-box-shadow: 3px 3px 25px -4px rgba(0,0,0,0.8);
+    -moz-box-shadow: 3px 3px 25px -4px rgba(0,0,0,0.8);
+    box-shadow: 3px 3px 25px -4px rgba(0,0,0,0.8);
   }
 
   .visible {
     display: block;
   }
+
+  canvas {
+    opacity: 0;
+  }
+
+  canvas.visible {
+    -webkit-animation: flash 1s;
+    animation: flash 1s;
+    opacity: 1;
+  }
+
+
+
+  @-webkit-keyframes flash {
+    0% {  opacity: .3;  }
+    100% { opacity: 1; }
+  }
+  @keyframes flash {
+    0% { opacity: .3; }
+    100% { opacity: 1;  }
+  }
+
 </style>

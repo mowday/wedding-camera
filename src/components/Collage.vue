@@ -11,10 +11,12 @@
     </div>
     <div class="middle-circle">
       <div class="outer">
-        <div class="inner">
+        <!-- <div class="inner">
           <div class="wedding">Bröllop</div>
           <div class="names">Camilla<br>&<br>Henrik</div>
           <div class="dates">2019-08-31</div>
+        </div> -->
+        <div class="inner">
         </div>
       </div>
     </div>
@@ -109,7 +111,7 @@ export default {
 </script>
 
 <style scoped>
-/* @import url('https://fonts.googleapis.com/css?family=Cinzel&display=swap'); */
+/* @import url('https://fonts.googleapis.com/css?family=Oswald&display=swap'); */
 
 .slot {
   height: 100%;
@@ -119,7 +121,8 @@ export default {
   margin: 0 5px 5px 0;
   float: left;
   
-  background-color: ghostwhite;
+  /* background-color: ghostwhite; */
+  background-color: #2c3e50;
 
   -webkit-transition: opacity 1s ease-in-out;
   -moz-transition: opacity 1s ease-in-out;
@@ -150,12 +153,15 @@ export default {
 }
 
 .middle-circle > .outer {
-  border-radius: 50%;
+  background-image: url('../assets/ist-logo.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: 50% 50%;
+  /* border-radius: 50%;
   width: 510px;
   height: 510px;
   border: 6px solid white;
-  /* border: 5px solid #8BA661; */
-  position: relative;
+  position: relative; */
 }
 
 .middle-circle > .outer > .inner {
@@ -164,7 +170,7 @@ export default {
   margin-left: 5px;
   margin-top: 5px;
   border-radius: 50%;
-  background-color: white;
+  /* background-color: white; */
   display: table;
 }
 
@@ -172,10 +178,9 @@ export default {
   display: table-cell;
   vertical-align: middle;
   font-size: 90px;
-  font-family: 'Cinzel', serif;
+  font-family: 'Oswald', serif;
   line-height: 80px;
   color: rgba(0,0,0,0.7)
-  /* color: #8BA661; */
 }
 
 .wedding {
@@ -183,7 +188,7 @@ export default {
   left: 50%;
   transform: translateX(-50%);
   top: 50px;
-  font-family: 'Cinzel', serif;
+  font-family: 'Oswald', serif;
   font-size: 30px;
   border-top: 1px solid rgba(0,0,0,0.7);
   border-bottom: 1px solid rgba(0,0,0,0.7);
@@ -196,7 +201,7 @@ export default {
   display: table-cell;
   vertical-align: middle;
   font-size: 200px;
-  font-family: 'Cinzel', serif;
+  font-family: 'Oswald', serif;
   line-height: 80px;
   color: rgba(0,0,0,0.8)
 }
@@ -206,7 +211,7 @@ export default {
   left: 50%;
   transform: translateX(-50%);
   bottom: 50px;
-  font-family: 'Cinzel', serif;
+  font-family: 'Oswald', serif;
   font-size: 30px;
   border-top: 1px solid rgba(0,0,0,0.7);
   border-bottom: 1px solid rgba(0,0,0,0.7);
