@@ -4,10 +4,12 @@
     <div class="grid">
       <div class="slot"><image-switcher :src="slotA"/></div>
       <div class="slot"><image-switcher :src="slotB"/></div>
+      <div class="slot"><image-switcher :src="slotC"/></div>
     </div>
     <div class="grid">
-      <div class="slot"><image-switcher :src="slotC"/></div>
       <div class="slot"><image-switcher :src="slotD"/></div>
+      <div class="slot"><image-switcher :src="slotE"/></div>
+      <div class="slot"><image-switcher :src="slotF"/></div>
     </div>
     <div class="middle-circle">
       <div class="outer">
@@ -43,6 +45,8 @@ export default {
       slotB: undefined,
       slotC: undefined,
       slotD: undefined,
+      slotE: undefined,
+      slotF: undefined,
       lastSlot: 0,
       lastIndex: 0,
       countdown: false,
@@ -55,6 +59,8 @@ export default {
       this.swapNextSlot()
     }, 10000);
     await this.updateImages();
+    this.swapNextSlot();
+    this.swapNextSlot();
     this.swapNextSlot();
     this.swapNextSlot();
     this.swapNextSlot();
@@ -89,7 +95,7 @@ export default {
       if (!navigator.getUserMedia) {
         this.error = 'No webcam detected :('
       }
-      const slots = ['slotA', 'slotB', 'slotC', 'slotD'];
+      const slots = ['slotA', 'slotB', 'slotC', 'slotD', 'slotE', 'slotF'];
       const slot = slots[this.lastSlot++];
       this[slot] = this.getImage();
       if (this.lastSlot > slots.length) {
@@ -101,7 +107,7 @@ export default {
     async countdown(val) {
       if (!val) {
         await this.updateImages();
-        if (this.images.length < 4) {
+        if (this.images.length < 6) {
           this.swapNextSlot();
         }
       }
@@ -115,14 +121,14 @@ export default {
 
 .slot {
   height: 100%;
-  width: 47%;
-  width: -webkit-calc(50% - 5px);
-  width: calc(50% - 5px);
+  width: 33%;
+  width: -webkit-calc(33% - 2px);
+  width: calc(33% - 2px);
   margin: 0 5px 5px 0;
   float: left;
   
   /* background-color: ghostwhite; */
-  background-color: #2c3e50;
+  /* background-color: #2c3e50; */
 
   -webkit-transition: opacity 1s ease-in-out;
   -moz-transition: opacity 1s ease-in-out;
