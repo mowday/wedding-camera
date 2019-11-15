@@ -54,14 +54,12 @@ export default {
     }
   },
   async mounted() {
-    setInterval(() => {
-      async () => {
-        const result = await fetch('/awaiting_photo');
-        if (result.status === 200) {
-          const data = await result.json();
-          if (data === true) {
-            this.countdown = true;
-          }
+    setInterval(async () => {
+      const result = await fetch('/awaiting_photo');
+      if (result.status === 200) {
+        const data = await result.json();
+        if (data === true) {
+          this.countdown = true;
         }
       }
     }, 200);
