@@ -6,16 +6,21 @@ const app = express();
 
 
 let takePhoto = false;
-const button = new Gpio(4, 'in', 'both');
-button.watch((err, value) => {
-  if (value === 1) {
-    takePhoto = true;
-  }
-})
+if (Gpio.accessible) {
+  const button = new Gpio(4, 'in', 'both');
+  button.watch((err, value) => {
+    if (value === 1) {
+      takePhoto = true;
+    }
+  })
 
-process.on('SIGINT', _ => {
-  button.unexport();
-});
+  process.on('SIGINT', () => {
+    button.unexport();
+  });
+}
+process.on('SIGHUP', () => {
+  takePhoto = true;
+})
 
 app.use(bodyParser.text({ limit: '10mb' }));
 app.use(express.static('./dist/'));
@@ -37,7 +42,7 @@ app.post('/upload', async (req, res) => {
 })
 
 
-app.post('awaiting_photo', (req, res) => {
+app.get('/awaiting_photo', (req, res) => {
   res.json(takePhoto);
   takePhoto = false;
 })
