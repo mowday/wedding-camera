@@ -54,6 +54,18 @@ export default {
     }
   },
   async mounted() {
+    setInterval(() => {
+      async () => {
+        const result = await fetch('/awaiting_photo');
+        if (result.status === 200) {
+          const data = await result.json();
+          if (data === true) {
+            this.countdown = true;
+          }
+        }
+      }
+    }, 200);
+
     setInterval(async () => {
       await this.updateImages();
       this.swapNextSlot()
@@ -65,18 +77,6 @@ export default {
     this.swapNextSlot();
     this.swapNextSlot();
     this.swapNextSlot();
-
-    setInterval(() => {
-      async () => {
-        const result = await fetch('/awaiting_photo');
-        if (result.status === 200) {
-          const data = await result.json();
-          if (data === true) {
-            countdown = true;
-          }
-        }
-      }
-    }, 200);
   },
   methods: {
     getImage() {
@@ -94,7 +94,7 @@ export default {
       }
     },
     async updateImages() {
-      const result = await fetch('http://localhost:3000/images.json');
+      const result = await fetch('/images.json');
       if (result.status === 200) {
         const data = await result.json();
         this.images = data;
