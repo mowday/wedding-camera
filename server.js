@@ -1,7 +1,21 @@
 const express = require('express');
 const fs = require('fs-extra');
 const bodyParser = require('body-parser');
+const Gpio = require('onoff').Gpio;
 const app = express();
+
+
+let takePhoto = false;
+const button = new Gpio(4, 'in', 'both');
+button.watch((err, value) => {
+  if (value === 1) {
+    takePhoto = true;
+  }
+})
+
+process.on('SIGINT', _ => {
+  button.unexport();
+});
 
 app.use(bodyParser.text({ limit: '10mb' }));
 app.use(express.static('./dist/'));
@@ -20,6 +34,12 @@ app.post('/upload', async (req, res) => {
   const data = req.body.split(',')[1];
   await fs.writeFile('./pictures/' + getFilename(), data, 'base64')
   res.json({ status: 'ok' }).send()
+})
+
+
+app.post('awaiting_photo', (req, res) => {
+  res.json(takePhoto);
+  takePhoto = false;
 })
 
 function getFilename() {
