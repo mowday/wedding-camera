@@ -9,6 +9,7 @@ let takePhoto = false;
 if (Gpio.accessible) {
   const button = new Gpio(4, 'in', 'both');
   button.watch((err, value) => {
+    console.log('Button Value => ' + value);
     if (value === 1) {
       takePhoto = true;
     }
